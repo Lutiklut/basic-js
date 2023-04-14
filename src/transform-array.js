@@ -13,9 +13,23 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function transform(arr ) {
+  if (!Array.isArray(arr)||arr===null||arr==undefined){ throw new Error ("\'arr\' parameter must be an instance of the Array!")}
+  else if(arr.length===0) {return arr}
+  else if(arr.every ((el)=>!isNaN(el))){return arr}
+  let newArr= Array.from(arr);
+ if ((newArr[0]==='--discard-prev')||(arr[0]==='--double-prev')){newArr= newArr.slice(1)}
+ if ((newArr[newArr.length-1]==='--discard-next')||(newArr[newArr.length-1]==='--double-next')){newArr.pop()}
+  newArr.map((el, index, arr)=> {
+    //if( arr[arr.length-1]==='--discard-next'|| arr[arr.length-1]==='--double-next'){arr.pop() }
+    //if( arr[0]==='--discard-prev'||arr[0]==='--double-prev'){arr.shift()}
+    if( el==='--discard-next'){arr[index]=arr[index+1]='del' }
+    if( el==='--discard-prev'){arr[index]=arr[index-1]='del';} 
+    if( el==='--double-next'){arr[index]=arr[index+1]; }
+    if( el==='--double-prev'){arr[index]=arr[index-1];}});
+
+    newArr=newArr.filter(function(f) { return f !== 'del' })
+    return newArr;
 }
 
 module.exports = {
