@@ -7,11 +7,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  * @return {Object}
  *
  * @example
- * domains = [
- *  'code.yandex.ru',
- *  'music.yandex.ru',
- *  'yandex.ru'
- * ]
+ * 
  *
  * The result should be the following:
  * {
@@ -22,11 +18,26 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  *
  */
-function getDNSStats(/* domains */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
-}
+function getDNSStats( domains ) {
+  domains= domains.map(el=> el.split('.').reverse());
+  let countObj={};
+   for(let i=0;i<domains.length;i++){
+    let str='';
+    for(let j=0;j<domains[i].length;j++) {
+      str+='.'+domains[i][j]
+      if (!countObj[str]){countObj[str]=1}
+      else {countObj[str]++ }
+    }    
+  }
 
+  return countObj;
+}
+domains = [
+ 'code.yandex.ru',
+'music.yandex.ru',
+ 'yandex.ru'
+ ]
+console.log(getDNSStats(domains))
 module.exports = {
   getDNSStats
 };
